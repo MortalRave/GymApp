@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gymapp/widgets/main_button.dart';
+import 'package:gymapp/screens/stopwatch_screen.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -44,9 +45,14 @@ class HomeScreen extends StatelessWidget {
                ),
             SizedBox(height: 20),
             MainButton(
-              text: 'Stoper',
-               onPressed: (){}
-               ),
+              text: 'Stopwatch',
+               onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => StopwatchScreen())
+                );
+               },
+              ),
             SizedBox(height: 20),
             MainButton(
               text: 'Timer',
