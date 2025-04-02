@@ -1,6 +1,48 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
-class StopwatchScreen extends StatelessWidget {
+
+class StopwatchScreen extends StatefulWidget {
+  const StopwatchScreen({Key? key}) : super(key: key);
+
+  @override
+  _StopwatchScreenState createState() => _StopwatchScreenState();
+}
+
+class _StopwatchScreenState extends State<StopwatchScreen>{
+
+  Timer? timer;
+  String digitSeconds = "00", digitMinutes = "00", digitHours = "00";
+  int seconds = 0, minutes = 0, hours = 0;
+
+  void startStopwatch() {
+    timer = Timer.periodic(Duration(seconds: 1), (timer){
+      int localSeconds = seconds + 1;
+      int localMinutes = minutes;
+      int localHours = hours;
+
+      if (localSeconds > 59) {
+        if (localMinutes > 59) {
+          localHours++;
+          localMinutes = 0;
+        }
+        else{
+          localMinutes++;
+          localSeconds = 0;
+        }
+      }
+
+      setState(() {
+        seconds = localSeconds;
+        minutes = localMinutes;
+        hours = localHours;
+
+        digitSeconds = (seconds < 10) ? "0$seconds" : "$seconds";
+        digitMinutes = (minutes < 10) ? "0$minutes" : "$minutes";
+      });
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +72,7 @@ class StopwatchScreen extends StatelessWidget {
           SizedBox(height: 80),
           Center(
             child: Text(
-              "00:00:00",
+              "$digitHours:$digitMinutes:$digitSeconds",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 70,
@@ -55,7 +97,9 @@ class StopwatchScreen extends StatelessWidget {
                   child: Text(
                     "Start",
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    startStopwatch();
+                  },
                 ),
               ),
               SizedBox(width: 20),
